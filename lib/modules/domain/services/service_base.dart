@@ -73,7 +73,7 @@ class ServiceBase {
     throw "No Internet Connection";
   }
 
-  /// This handles all the reponses other than success response
+  /// This handles all the response other than success response
   static void handlerError(http.Response response, http.Client client) {
     client.close();
     if (int.parse(response.statusCode.toString()[0]) == 5) {

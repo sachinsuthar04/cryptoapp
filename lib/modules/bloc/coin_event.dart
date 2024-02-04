@@ -1,5 +1,6 @@
 part of 'coin_bloc.dart';
 
+/// This event is used in bloc for trigger event
 @immutable
 abstract class CoinEvent {}
 

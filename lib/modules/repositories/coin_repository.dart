@@ -3,9 +3,12 @@ import 'package:cryptoapp/modules/domain/services/service_base.dart';
 import 'package:cryptoapp/resources/endpoints.dart';
 import 'package:hive/hive.dart';
 
+/// We use this repo for add methods where we set as mediator for data access
+///
 class CoinRepository {
   final ServiceBase serviceBase = ServiceBase();
 
+  // API call
   Future<List<CoinResponse>> getCoins(int count) async {
     try {
       final response = await ServiceBase.get(
@@ -25,6 +28,7 @@ class CoinRepository {
     }
   }
 
+  // Get data from database
   Future<List<CoinResponse>> getCoinsFromDB() async {
     try {
       final coinData = Hive.box('crypto');
@@ -53,6 +57,7 @@ class CoinRepository {
     }
   }
 
+  // Add data to favourite
   Future<List<CoinResponse>> addFavouriteData(CoinResponse coinResponse) async {
     try {
       final coinData = Hive.box('crypto');
@@ -74,6 +79,7 @@ class CoinRepository {
     }
   }
 
+  // remove data from favourite
   Future<List<CoinResponse>> deleteFavouriteData(int key) async {
     try {
       final coinData = Hive.box('crypto');

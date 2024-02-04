@@ -91,27 +91,30 @@ class _FavouritePageState extends State<FavouritePage> {
                 ),
               );
             } else if (state is CoinFavouriteLoaded) {
-              return Scaffold(
-                body: state.coins.isNotEmpty
-                    ? ListView.builder(
-                        itemCount: state.coins.length,
-                        itemBuilder: (context, index) {
-                          final coin = state.coins[index];
-                          return CoinList(
-                            coin: coin,
-                            onTap: () {
-                              context.goNamed(
-                                  DynamicRoutes.itemDetailScreen.name,
-                                  extra: state.coins[index]);
-                            },
-                          );
-                        },
-                      )
-                    : Center(
-                        child: Text(
-                        "No favourite item",
-                        style: Theme.of(context).textTheme.bodyLarge!,
-                      )),
+              return SafeArea(
+                child: Scaffold(
+                  body: state.coins.isNotEmpty
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: state.coins.length,
+                          itemBuilder: (context, index) {
+                            final coin = state.coins[index];
+                            return CoinList(
+                              coin: coin,
+                              onTap: () {
+                                context.goNamed(
+                                    DynamicRoutes.itemDetailScreen.name,
+                                    extra: state.coins[index]);
+                              },
+                            );
+                          },
+                        )
+                      : Center(
+                          child: Text(
+                          "No favourite item",
+                          style: Theme.of(context).textTheme.bodyLarge!,
+                        )),
+                ),
               );
             } else {
               return Center(

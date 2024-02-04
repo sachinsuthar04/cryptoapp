@@ -120,7 +120,9 @@ class _HomePageState extends State<HomePage> {
                     (state.coins.isNotEmpty && state.loading!)
                         ? const Padding(
                             padding: EdgeInsets.all(20.0),
-                            child: CircularProgressIndicator.adaptive(),
+                            child: CircularProgressIndicator.adaptive(
+                              backgroundColor: AppColors.white,
+                            ),
                           )
                         : const SizedBox.shrink()
                   ],

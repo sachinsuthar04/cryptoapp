@@ -1,5 +1,7 @@
 part of 'coin_bloc.dart';
 
+/// This Stats is used to check in which stat app and what we need to perform
+/// stat manage on UI for listen and update UI
 @immutable
 abstract class CoinState {}
 

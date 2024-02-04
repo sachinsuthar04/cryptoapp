@@ -10,6 +10,8 @@ part 'coin_state.dart';
 class CoinBloc extends Bloc<CoinEvent, CoinState> {
   final CoinRepository coinRepository = CoinRepository();
 
+  ///This bloc is manage all event where we are fetch data from API &
+  ///add to favourite in HIve database and remove from favourite
   CoinBloc(CoinRepository coinRepository)
       : super(
           CoinInitial(),
@@ -56,6 +58,7 @@ class CoinBloc extends Bloc<CoinEvent, CoinState> {
     on<DeleteFavouriteData>(deleteFavourite);
   }
 
+  // fetch data from database
   fetchFromDatabase(FetchFromDatabaseData event, emit) async {
     try {
       emit(CoinFavouriteLoading());
@@ -70,6 +73,7 @@ class CoinBloc extends Bloc<CoinEvent, CoinState> {
     }
   }
 
+  // add favourite data into database
   addFavourite(AddFavouriteData event, emit) async {
     final current = state;
     try {
@@ -85,6 +89,7 @@ class CoinBloc extends Bloc<CoinEvent, CoinState> {
     emit(current);
   }
 
+  // remove favourite data from database
   deleteFavourite(DeleteFavouriteData event, emit) async {
     final current = state;
     try {
