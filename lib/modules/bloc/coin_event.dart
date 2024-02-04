@@ -3,12 +3,11 @@ part of 'coin_bloc.dart';
 @immutable
 abstract class CoinEvent {}
 
-class FetchCoinData extends CoinEvent {}
+class FetchCoinData extends CoinEvent {
+  final int count;
+  final int loadingType;
 
-class GetCoinByIdEvent extends CoinEvent {
-  final String id;
-
-  GetCoinByIdEvent(this.id);
+  FetchCoinData(this.count, this.loadingType);
 }
 
 class FetchFromDatabaseData extends CoinEvent {}

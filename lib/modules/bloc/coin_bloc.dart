@@ -4,6 +4,7 @@ import 'package:cryptoapp/modules/repositories/coin_repository.dart';
 import 'package:meta/meta.dart';
 
 part 'coin_event.dart';
+
 part 'coin_state.dart';
 
 class CoinBloc extends Bloc<CoinEvent, CoinState> {
@@ -14,13 +15,31 @@ class CoinBloc extends Bloc<CoinEvent, CoinState> {
           CoinInitial(),
         ) {
     on<CoinEvent>((event, emit) async {
+      final current = state;
       try {
+        List<CoinResponse> prevData = [];
         if (event is FetchCoinData) {
-          emit(CoinLoading());
-
+          if (current is CoinLoaded) {
+            prevData = current.coins == null ? [] : List.of(current.coins);
+            if (event.loadingType == 1) {
+              emit(current.copyWith(
+                coins: current.coins,
+                loading: true,
+              ));
+            }
+          }
+          if (event.loadingType == 0) {
+            emit(CoinLoading(
+              count: 0,
+            ));
+          }
           try {
-            var coins = await coinRepository.getCoins();
-            emit(CoinLoaded(coins));
+            var coins = await coinRepository.getCoins(event.count);
+            prevData.addAll(coins);
+            emit(CoinLoaded(
+              coins: prevData,
+              loading: false,
+            ));
           } catch (e) {
             emit(CoinError(e.toString()));
           }

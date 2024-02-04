@@ -6,10 +6,11 @@ import 'package:hive/hive.dart';
 class CoinRepository {
   final ServiceBase serviceBase = ServiceBase();
 
-  Future<List<CoinResponse>> getCoins() async {
+  Future<List<CoinResponse>> getCoins(int count) async {
     try {
       final response = await ServiceBase.get(
-          url: "${ServiceBase.baseUrl}${Endpoints.getCryptocurrency}",
+          url:
+              "${ServiceBase.baseUrl}${Endpoints.getCryptocurrency}?&start=$count&limit=10",
           headers: {
             'X-CMC_PRO_API_KEY': ServiceBase.API_KEY,
             'Content-Type': 'application/json',
@@ -32,7 +33,7 @@ class CoinRepository {
       final data = coinData.keys.map((key) {
         final value = coinData.get(key);
         return {
-          "key": key??0,
+          "key": key ?? 0,
           "id": value["id"],
           "name": value["name"],
           "symbol": value['symbol'],

@@ -33,7 +33,7 @@ LinkedIn: [SACHIN SUTHAR](https://www.linkedin.com/in/sutharsachin/)
 - [Hive](https://pub.dev/packages/hive_flutter/versions) ^1.1.0
 - [hive_flutter](https://pub.dev/packages/hive) ^2.2.3
 - [Path Provider](https://pub.dev/packages/path_provider) ^2.1.1
-- [https://pub.dev/packages/connectivity_plus) ^4.0.1
+- [Connectivity_plus](https://pub.dev/packages/connectivity_plus) ^4.0.1
 - [intl](https://pub.dev/packages/intl) ^0.18.1
 
 

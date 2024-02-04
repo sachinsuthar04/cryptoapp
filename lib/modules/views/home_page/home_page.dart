@@ -17,10 +17,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final ScrollController scrollController = ScrollController();
+  int count = 1;
+
   @override
   void initState() {
-    BlocProvider.of<CoinBloc>(context).add(FetchCoinData());
+    scrollController.addListener(_loadMoreData);
+    BlocProvider.of<CoinBloc>(context).add(FetchCoinData(count, 0));
     super.initState();
+  }
+
+  void _loadMoreData() {
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
+      count = count + 1;
+      BlocProvider.of<CoinBloc>(context).add(FetchCoinData(count, 1));
+    }
   }
 
   @override
@@ -38,14 +50,15 @@ class _HomePageState extends State<HomePage> {
       },
       child: RefreshIndicator(
         onRefresh: () {
-          BlocProvider.of<CoinBloc>(context).add(FetchCoinData());
+          BlocProvider.of<CoinBloc>(context).add(FetchCoinData(1, 0));
+          count = count + 1;
           return Future.value(null);
         },
         child: BlocBuilder<CoinBloc, CoinState>(
           builder: (context, state) {
             if (state is CoinInitial) {
               return const SizedBox();
-            } else if (state is CoinLoading) {
+            } else if (state is CoinLoading && state.count == 0) {
               return Scaffold(
                 body: Column(
                   children: List.generate(
@@ -82,19 +95,35 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
             } else if (state is CoinLoaded) {
-              return Scaffold(
-                body: ListView.builder(
-                  itemCount: state.coins.length,
-                  itemBuilder: (context, index) {
-                    final coin = state.coins[index];
-                    return CoinList(
-                      coin: coin,
-                      onTap: () {
-                        context.goNamed(DynamicRoutes.itemDetailScreen.name,
-                            extra: state.coins[index]);
-                      },
-                    );
-                  },
+              return SafeArea(
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        controller: scrollController,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemCount: state.coins.length,
+                        itemBuilder: (context, index) {
+                          final coin = state.coins[index];
+                          return CoinList(
+                            coin: coin,
+                            onTap: () {
+                              context.goNamed(
+                                  DynamicRoutes.itemDetailScreen.name,
+                                  extra: state.coins[index]);
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                    (state.coins.isNotEmpty && state.loading!)
+                        ? const Padding(
+                            padding: EdgeInsets.all(20.0),
+                            child: CircularProgressIndicator.adaptive(),
+                          )
+                        : const SizedBox.shrink()
+                  ],
                 ),
               );
             } else {

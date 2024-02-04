@@ -11,33 +11,32 @@ class CoinList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        FadeInUp(
-          delay: const Duration(milliseconds: 300),
-          child: Container(
-            color: Colors.teal,
-            child: ListTile(
-              onTap: onTap,
-              title: Text(coin!.name,
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 20,
-                      )),
-              trailing: Text(
-                coin!.symbol,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+    return FadeInUp(
+      delay: const Duration(milliseconds: 300),
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          vertical: 10,
+        ),
+        margin: const EdgeInsets.only(
+          bottom: 10,
+        ),
+        color: Colors.teal,
+        child: ListTile(
+          onTap: onTap,
+          title: Text(coin!.name,
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     fontWeight: FontWeight.w500,
-                    fontSize: 24,
-                    color: AppColors.white),
-              ),
-            ),
+                    fontSize: 20,
+                  )),
+          trailing: Text(
+            coin!.symbol,
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                fontWeight: FontWeight.w500,
+                fontSize: 24,
+                color: AppColors.white),
           ),
         ),
-        const SizedBox(
-          height: 10,
-        ),
-      ],
+      ),
     );
   }
 }
