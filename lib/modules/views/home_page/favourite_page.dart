@@ -7,6 +7,7 @@ import 'package:cryptoapp/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
 
 class FavouritePage extends StatefulWidget {
   const FavouritePage({Key? key}) : super(key: key);
@@ -24,6 +25,7 @@ class _FavouritePageState extends State<FavouritePage> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return BlocListener<CoinBloc, CoinState>(
       listener: (context, state) {
         if (state is CoinError) {
@@ -53,8 +55,40 @@ class _FavouritePageState extends State<FavouritePage> {
             if (state is CoinInitial) {
               return const SizedBox();
             } else if (state is CoinFavouriteLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return Scaffold(
+                body: Column(
+                  children: List.generate(
+                      10,
+                      (index) => Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24.0,
+                              vertical: 12.0,
+                            ),
+                            child: Shimmer.fromColors(
+                              baseColor: Colors.grey[300]!,
+                              highlightColor: Colors.grey[100]!,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    color: Colors.white,
+                                    height: 40,
+                                    width: size.width * 0.4,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    color: Colors.white,
+                                    height: 40,
+                                    width: size.width * 0.4,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )).toList(),
+                ),
               );
             } else if (state is CoinFavouriteLoaded) {
               return Scaffold(
